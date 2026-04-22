@@ -4,7 +4,16 @@
 
 The UI is a display layer only. It holds no business logic, makes no decisions, and performs no data transformation. It fetches data from backend APIs and renders it. All logic lives in the services.
 
-Authentication is handled by the Notification Gateway. The UI stores the JWT and attaches it to every request.
+Authentication is handled by the Notification Gateway. The **implemented** UI ([`apps/ui`](../../apps/ui)) stores the JWT in an HTTP-only cookie and **proxies** all service calls through Next.js Route Handlers (`/api/...`); the browser never holds service base URLs or calls MagicBall / Data Scout / IL / NotifGW directly.
+
+---
+
+## Architecture notes (implementation)
+
+- **Proxy pattern:** The browser only talks to the Next.js app. Route Handlers under `src/app/api/` read the JWT from the `sonrise_jwt` cookie and forward `Authorization: Bearer <token>` to the Notification Gateway and Intelligence Layer. Service URLs are **server-side env** only (`NOTIF_GW_URL`, `INTEL_URL`) — no `NEXT_PUBLIC_*` for those.
+- **JWT storage:** After `POST /api/auth/login`, the app sets an HTTP-only `SameSite=Lax` cookie. Client-side JS cannot read the token (XSS-hardening vs `localStorage`).
+- **Edge middleware** (`src/middleware.ts`) decodes the JWT payload (no signature verification; the UI does not hold `JWT_SECRET`) to guard routes and return `401`/`403` JSON for `/api/*`. Services remain the source of truth for auth.
+- **Admin API protection:** In addition to backend checks, middleware rejects non-`admin` access to `/admin/*`, `/api/admin/*`, `/api/users` (list), and `/api/pipeline*`.
 
 ---
 
@@ -28,7 +37,7 @@ Authentication is handled by the Notification Gateway. The UI stores the JWT and
 ## Pages & Routes
 
 ### `/login`
-Login form. Posts credentials to `POST /auth/login` on the Notification Gateway. Stores the returned JWT. Redirects to `/alerts` on success.
+Login form. Posts credentials to **`POST /api/auth/login`** (Next.js), which calls Notification Gateway `POST /auth/login`, then stores the returned JWT in an HTTP-only cookie. Redirects to `/alerts` on success.
 
 ---
 
@@ -81,8 +90,8 @@ Each card shows:
 - Step name and status (`completed` / `failed` / `skipped`)
 - `processed_at` timestamp
 - Expandable JSON block — the full step output document
-- **Delete button** — calls `DELETE /pipeline/:event_id/step/:step`. Clears the step output from MongoDB. Only available if step status is `completed`.
-- **Replay button** — calls `POST /pipeline/:event_id/replay/:step`. Only available after the step has been deleted (i.e. when no current output exists for that step).
+- **Delete button** — calls `DELETE /api/pipeline/:event_id/step/:step` (proxy to IL `DELETE /pipeline/...`). Clears the step output from MongoDB. Shown when the step document exists and status is a successful terminal state (`completed` for AI steps, `emitted` for the notification signal step).
+- **Replay button** — calls `POST /api/pipeline/:event_id/replay/:step` (proxy to IL). Only available when no current output exists for that step (e.g. after delete).
 
 No logic in the UI — delete and replay are direct API calls. The UI re-fetches the run after each action.
 
@@ -154,9 +163,11 @@ Auto-refreshes every 30 seconds. The UI sets a timer — no WebSocket needed.
 
 | Variable | Description | Default |
 |---|---|---|
-| `NEXT_PUBLIC_API_NOTIF_GW` | Notification Gateway base URL (browser) | `http://localhost:4103` |
-| `NEXT_PUBLIC_API_INTEL` | Intelligence Layer base URL (browser) | `http://localhost:4102` |
-| `UI_PORT` | Dev server port | `4104` |
+| `NOTIF_GW_URL` | Notification Gateway base URL — **server-side only** (Route Handlers) | `http://localhost:4103` |
+| `INTEL_URL` | Intelligence Layer base URL — **server-side only** (Route Handlers) | `http://localhost:4102` |
+| `UI_PORT` | Next.js `dev` / `start` listen port | `4104` |
+
+Copy [`apps/ui/.env.example`](../../apps/ui/.env.example) to `apps/ui/.env.local` and adjust for cloud (internal service URLs, `UI_PORT` if the platform assigns ports).
 
 ---
 

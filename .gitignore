@@ -12,6 +12,7 @@ node_modules/
 
 # Build artifacts
 dist/
+.next/
 *.tsbuildinfo
 
 # SQLite databases (runtime state)
@@ -22,6 +23,6 @@ dist/
 # pnpm
 .pnpm-store/
 
-#logs
-logs/
+# Root-level log dumps only (do not use `logs/` — it would ignore Next.js `*/logs/` route segments)
+/logs/
 Temp/

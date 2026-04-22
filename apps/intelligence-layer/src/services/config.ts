@@ -7,7 +7,8 @@ export type IntelConfig = {
   redisUrl: string;
   datascoutBaseUrl: string;
   notificationGwBaseUrl: string;
-  geminiApiKey: string;
+  gcpProjectId: string;
+  gcpLocation: string;
   geminiManifestPath: string;
   pipelineVersion: string;
   minConfidenceThreshold: number;
@@ -51,7 +52,6 @@ export function loadConfig(): IntelConfig {
     throw new Error("INTEL_PORT must be a positive number");
   }
 
-  const geminiApiKey = requireEnv("GEMINI_API_KEY");
   const manifestRel = envString("GEMINI_MANIFEST_PATH", "./gemini-connector.json");
   const geminiManifestPath = resolveManifestPath(manifestRel);
 
@@ -65,7 +65,8 @@ export function loadConfig(): IntelConfig {
       "NOTIFICATION_GW_BASE_URL",
       "http://localhost:4103"
     ),
-    geminiApiKey,
+    gcpProjectId: requireEnv("GCP_PROJECT_ID"),
+    gcpLocation: envString("GCP_LOCATION", "us-central1"),
     geminiManifestPath,
     pipelineVersion: envString("PIPELINE_VERSION", "1.0"),
     minConfidenceThreshold: envNumber("MIN_CONFIDENCE_THRESHOLD", 0.5),

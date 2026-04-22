@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Health-gated local start: MagicBall → Data Scout → Intelligence Layer → Notification Gateway.
+# Health-gated local start: MagicBall → Data Scout → Intelligence Layer → Notification Gateway → UI.
 # Prerequisites: Redis, MongoDB, GEMINI_API_KEY for IL; seed notification-gateway users (see apps/notification-gateway/.env.example).
-# Optional: SKIP_INTELLIGENCE=1 stops after Data Scout; SKIP_NOTIFICATION_GATEWAY=1 skips gateway (IL-only local).
+# Optional: SKIP_INTELLIGENCE=1 stops after Data Scout; SKIP_NOTIFICATION_GATEWAY=1 skips gateway (IL-only local); SKIP_UI=1 skips UI (ports 4100–4103 only).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -54,5 +54,15 @@ fi
 pnpm --filter notification-gateway dev & pids+=($!)
 wait_health "http://127.0.0.1:4103/health" "NotificationGateway"
 
-echo "All four services are up. PIDs: ${pids[*]}. Press Ctrl+C to stop."
+if [[ -n "${SKIP_UI:-}" ]]; then
+  echo "SKIP_UI is set; not starting UI"
+  echo "Four services are up. PIDs: ${pids[*]}. Press Ctrl+C to stop."
+  wait
+  exit 0
+fi
+
+pnpm --filter ui dev & pids+=($!)
+wait_health "http://127.0.0.1:4104/api/health" "UI"
+
+echo "All five services are up. PIDs: ${pids[*]}. Press Ctrl+C to stop."
 wait

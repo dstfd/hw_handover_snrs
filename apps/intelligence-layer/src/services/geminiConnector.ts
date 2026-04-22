@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { VertexAI } from "@google-cloud/vertexai";
 import type { Collection, ObjectId } from "mongodb";
 import type { AiLogDoc, GeminiManifest } from "../types.js";
 import { insertAiLog } from "../repositories/aiLogsRepo.js";
@@ -52,8 +52,9 @@ export type GeminiCallResult = {
 
 export function createGeminiConnector(deps: {
   manifest: GeminiManifest;
-  apiKey: string;
   aiLogs: Collection<AiLogDoc>;
+  projectId: string;
+  location: string;
 }): {
   call: (args: {
     step: GeminiStepKey;
@@ -62,9 +63,9 @@ export function createGeminiConnector(deps: {
     pipeline_version: string;
   }) => Promise<GeminiCallResult>;
 } {
-  const { manifest, apiKey, aiLogs } = deps;
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: manifest.model });
+  const { manifest, aiLogs, projectId, location } = deps;
+  const vertex = new VertexAI({ project: projectId, location });
+  const model = vertex.getGenerativeModel({ model: manifest.model });
 
   async function call(args: {
     step: GeminiStepKey;
@@ -89,23 +90,29 @@ export function createGeminiConnector(deps: {
     let tokens = { input: 0, output: 0 };
 
     try {
-      const gen = model.generateContent({
-        contents: [{ role: "user", parts: [{ text: args.prompt }] }],
-        generationConfig: {
-          temperature: stepCfg.temperature,
-          maxOutputTokens: stepCfg.max_output_tokens,
-          responseMimeType: manifest.common.response_mime_type,
-        },
-      });
-      const result = await withTimeout(gen, timeoutMs, "gemini");
-      const response = result.response;
-      rawText = response.text();
+      const gen = await withTimeout(
+        model.generateContent({
+          contents: [{ role: "user", parts: [{ text: args.prompt }] }],
+          generationConfig: {
+            temperature: stepCfg.temperature,
+            maxOutputTokens: stepCfg.max_output_tokens,
+            responseMimeType: manifest.common.response_mime_type,
+          },
+        }),
+        timeoutMs,
+        "vertex-ai"
+      );
+      const result = gen as unknown as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+        usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number };
+      };
+      rawText = result.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
       duration_ms = Date.now() - start;
-      const u = response.usageMetadata;
-      if (u) {
+      const usage = result.usageMetadata;
+      if (usage) {
         tokens = {
-          input: u.promptTokenCount ?? 0,
-          output: u.candidatesTokenCount ?? 0,
+          input: usage.promptTokenCount ?? 0,
+          output: usage.candidatesTokenCount ?? 0,
         };
       }
     } catch (err) {

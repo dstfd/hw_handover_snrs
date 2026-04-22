@@ -6,6 +6,7 @@
     "dev:datascout": "pnpm --filter data-scout dev",
     "dev:intelligence": "pnpm --filter intelligence-layer dev",
     "dev:notification-gateway": "pnpm --filter notification-gateway dev",
+    "dev:ui": "pnpm --filter ui dev",
     "dev:stack": "bash scripts/start.sh"
   },
   "pnpm": {

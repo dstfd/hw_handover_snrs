@@ -15,8 +15,9 @@ const db = await connectMongo(config.intelMongoUri, config.intelMongoDb);
 await ensureIndexes(db);
 const gemini = createGeminiConnector({
   manifest,
-  apiKey: config.geminiApiKey,
   aiLogs: aiLogsCollection(db),
+  projectId: config.gcpProjectId,
+  location: config.gcpLocation,
 });
 const redis = getRedis(config.redisUrl);
 
