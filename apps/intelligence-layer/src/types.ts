@@ -1,4 +1,11 @@
 import type { ObjectId } from "mongodb";
+import type { z } from "zod";
+import type {
+  SynthesisOutputSchema,
+  ImpactOutputSchema,
+  ValidationOutputSchema,
+  ValidationCheckSchema,
+} from "./schemas.js";
 
 /** Data Scout GET /events/:event_id — matches apps/data-scout IngestedEventResponse */
 export type DataScoutEventPayload = {
@@ -60,71 +67,10 @@ export type IntelLogEntry = {
   message: string;
 };
 
-export type SynthesisOutput = {
-  headline: string;
-  category: string;
-  event_status: string;
-  date: string;
-  temporal: {
-    is_developing: boolean;
-    estimated_duration: string;
-  };
-  facts: string[];
-  entities: {
-    people: string[];
-    organizations: string[];
-    locations: string[];
-    assets: string[];
-  };
-  geo: {
-    country: string;
-    region: string | null;
-    scope: string;
-    coordinates: null;
-  };
-  affected_population: number | null;
-  economic_dimension: {
-    has_economic_impact: boolean;
-    impact_usd: number | null;
-    affected_sectors: string[];
-  };
-  casualties: { confirmed: number | null; estimated: number | null };
-  tags: string[];
-  provenance: {
-    source_reliability: string;
-    named_sources: string[];
-    provenance_note: string;
-  };
-  confidence: { score: number; reasoning: string };
-};
-
-export type ImpactOutput = {
-  severity: string;
-  urgency: string;
-  global_effect: string;
-  impact_dimensions: {
-    human: { score: number; notes: string };
-    economic: { score: number; notes: string };
-    infrastructure: { score: number; notes: string };
-    geopolitical: { score: number; notes: string };
-  };
-  overall_impact_score: number;
-  confidence: { score: number; factors: string[] };
-  source_reliability_adjustment: string;
-};
-
-export type ValidationCheck = {
-  check: string;
-  passed: boolean;
-  note: string;
-};
-
-export type ValidationOutput = {
-  is_valid: boolean;
-  proceed: boolean;
-  checks: ValidationCheck[];
-  validation_summary: string;
-};
+export type SynthesisOutput = z.infer<typeof SynthesisOutputSchema>;
+export type ImpactOutput = z.infer<typeof ImpactOutputSchema>;
+export type ValidationCheck = z.infer<typeof ValidationCheckSchema>;
+export type ValidationOutput = z.infer<typeof ValidationOutputSchema>;
 
 export type RelevanceOutput = {
   event_severity: string;
@@ -148,6 +94,7 @@ export type PipelineSynthesisDoc = {
   status: "completed" | "failed";
   error: string | null;
   ai_log_id: ObjectId | null;
+  source_severity_raw?: string;
   output?: SynthesisOutput;
   reasoning?: string;
 };

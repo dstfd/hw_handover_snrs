@@ -15,7 +15,8 @@
     "@google-cloud/vertexai": "^1.8.0",
     "fastify": "^5.1.0",
     "ioredis": "^5.4.1",
-    "mongodb": "^6.12.0"
+    "mongodb": "^6.12.0",
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

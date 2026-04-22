@@ -53,6 +53,7 @@ export async function runSynthesisStep(
       status: "completed",
       error: null,
       ai_log_id: aiLogId,
+      source_severity_raw: raw.severity,
       output,
       reasoning: stepReasoning,
     };

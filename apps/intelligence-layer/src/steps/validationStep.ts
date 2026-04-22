@@ -37,10 +37,32 @@ export async function runValidationStep(
     if (!imp?._id || !imp.output) {
       throw new Error("Validation: missing completed impact evaluation");
     }
+
+    // DETERMINISTIC INTEGRITY PRE-CHECKS
+    // These are machine-verifiable facts — must not be delegated to the AI.
+    // Catches stale refs from replays and any event_id routing bugs.
+    if (syn.event_id !== event_id) {
+      throw new Error(
+        `Validation integrity: synthesis.event_id mismatch — expected "${event_id}", got "${syn.event_id}"`
+      );
+    }
+    if (imp.event_id !== event_id) {
+      throw new Error(
+        `Validation integrity: impact.event_id mismatch — expected "${event_id}", got "${imp.event_id}"`
+      );
+    }
+    if (imp.synthesis_ref?.toHexString() !== syn._id?.toHexString()) {
+      throw new Error(
+        `Validation integrity: impact.synthesis_ref "${imp.synthesis_ref?.toHexString()}" ` +
+        `does not match synthesis._id "${syn._id?.toHexString()}" — chain broken`
+      );
+    }
+
     const prompt = buildValidationPrompt(
       syn.output,
       imp.output,
-      minC
+      minC,
+      syn.source_severity_raw
     );
     const { parsed, aiLogId } = await gemini.call({
       step: "validation",

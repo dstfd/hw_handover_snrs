@@ -74,6 +74,7 @@ Slightly elevated temperature allows the model to surface implied facts, context
   "status": "completed | failed",
   "error": null,
   "ai_log_id": "<reference to ai_logs._id>",
+  "source_severity_raw": "<severity string from Data Scout at ingestion — stored for downstream delta checks>",
 
   "output": {
     "headline": "<normalised headline>",
@@ -199,7 +200,20 @@ Near-deterministic. Validation is a correctness check — the model must assess 
 | `synthesis_completeness` | Required output fields are present and non-null where expected |
 | `impact_score_consistency` | `overall_impact_score` is consistent with the individual dimension scores |
 | `severity_alignment` | Severity assigned in impact evaluation is plausible given synthesis facts and confidence |
+| `severity_source_delta` | When `source_severity_raw` is present on the synthesis doc: notes whether the AI-assessed severity differs from the source-reported severity and requires justification in the note if it does. Passes regardless of delta — surfaces the difference rather than blocking it. |
 | `confidence_threshold_met` | Confidence scores in both synthesis and impact evaluation exceed the minimum threshold |
+
+### Deterministic integrity pre-checks
+
+Before calling the AI, the validation step performs three machine-enforced assertions:
+
+1. `synthesis.event_id === event_id` — the synthesis document belongs to the event being validated
+2. `impact.event_id === event_id` — the impact document belongs to the same event
+3. `impact.synthesis_ref === synthesis._id` — the impact document's cross-reference points to the exact synthesis document fetched
+
+If any check fails, the step throws immediately with a descriptive error and writes `status: "failed"` to MongoDB. The AI is not called. This prevents a replayed or misrouted step document from silently proceeding through the pipeline.
+
+> **Replay note:** Replaying the validation step after relevance matching has already completed will create a new validation document with a different `_id`, making `relevance_matching.validation_ref` stale. When replaying validation, replay all downstream steps (relevance_matching, notification_signal) as well.
 
 The `proceed` flag gates the pipeline. If `proceed: false`, relevance matching does not run.
 
