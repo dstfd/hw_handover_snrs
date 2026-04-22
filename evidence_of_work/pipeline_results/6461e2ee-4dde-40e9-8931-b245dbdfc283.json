@@ -1,0 +1,261 @@
+{
+    "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+    "pipeline_version": "1.0",
+    "outcome": "notified",
+    "matched_user_count": 1,
+    "source_event": {
+        "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+        "source_event_id": "eadc1a6c-43f5-4aeb-bcac-a3533a6c44c3",
+        "category": "natural_disaster",
+        "headline": "Heavy rain caused flash flooding in a district of Accra, damaging storefronts and cutting power to several streets.",
+        "summary": "Municipal teams used pumps to clear standing water after drainage channels overflowed during a short but intense storm. Officials said damage was concentrated in a low-lying commercial area and schools reopened the next day.",
+        "severity": "low",
+        "geographic_scope": "local",
+        "location_country": "Ghana",
+        "location_region": "Greater Accra",
+        "source_reliability": "single_source",
+        "status": "concluded",
+        "affected_population_estimate": 38000,
+        "economic_impact_usd": 9000000,
+        "casualties_confirmed": 0,
+        "casualties_estimated": null,
+        "tags": [
+            "flooding",
+            "storm",
+            "urban"
+        ],
+        "original_published_at": "2026-04-20T23:38:00Z",
+        "ingested_at": "2026-04-22T17:20:12.144Z",
+        "emitted_at": "2026-04-22T17:20:12.146Z"
+    },
+    "source_event_fetch_error": null,
+    "steps": {
+        "synthesis": {
+            "_id": "69e904d20f4c55668fd7ce7d",
+            "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+            "source_event_id": "eadc1a6c-43f5-4aeb-bcac-a3533a6c44c3",
+            "pipeline_version": "1.0",
+            "step": "synthesis",
+            "processed_at": "2026-04-22T17:26:22.981Z",
+            "status": "completed",
+            "error": null,
+            "ai_log_id": "69e904d20f4c55668fd7ce7c",
+            "source_severity_raw": "low",
+            "output": {
+                "headline": "Flash flooding in Accra district damages storefronts and cuts power",
+                "category": "natural_disaster",
+                "event_status": "concluded",
+                "date": "2026-04-20T23:38:00Z",
+                "temporal": {
+                    "is_developing": false,
+                    "estimated_duration": "short"
+                },
+                "facts": [
+                    "Heavy rain caused flash flooding in a district of Accra, Ghana.",
+                    "The flooding damaged storefronts and resulted in power outages on several streets.",
+                    "The event was caused by a short but intense storm that overwhelmed drainage channels.",
+                    "Damage was concentrated in a low-lying commercial area.",
+                    "Municipal teams used pumps to clear the standing water.",
+                    "Schools in the area reopened the following day.",
+                    "There were no confirmed casualties."
+                ],
+                "entities": {
+                    "people": [],
+                    "organizations": [],
+                    "locations": [
+                        "Accra",
+                        "Greater Accra",
+                        "Ghana"
+                    ],
+                    "assets": [
+                        "storefronts",
+                        "power infrastructure",
+                        "drainage channels",
+                        "schools"
+                    ]
+                },
+                "geo": {
+                    "country": "Ghana",
+                    "region": "Greater Accra",
+                    "scope": "local",
+                    "coordinates": null
+                },
+                "affected_population": 38000,
+                "economic_dimension": {
+                    "has_economic_impact": true,
+                    "impact_usd": 9000000,
+                    "affected_sectors": [
+                        "Retail",
+                        "Commercial",
+                        "Utilities"
+                    ]
+                },
+                "casualties": {
+                    "confirmed": 0,
+                    "estimated": null
+                },
+                "tags": [
+                    "flooding",
+                    "storm",
+                    "urban",
+                    "weather",
+                    "infrastructure"
+                ],
+                "provenance": {
+                    "source_reliability": "single_source",
+                    "named_sources": [],
+                    "provenance_note": "Event data ingested from the Data Scout system, which reported it as originating from a single source. The original publisher is not named."
+                },
+                "confidence": {
+                    "score": 0.75,
+                    "reasoning": "The event is reported from a single source and is concluded. While specific figures for economic impact and affected population are provided, they are uncorroborated. The narrative is internally consistent, supporting a moderate confidence level."
+                }
+            },
+            "reasoning": "The raw event data was processed by mapping its fields to the target schema. The headline was normalized for clarity. The category, event status, date, and geographic information were directly mapped from the source. The 'temporal' object was derived from the 'concluded' status and the summary's mention of a 'short' storm. Discrete facts were extracted from the headline and summary. Entities were identified by parsing the text for people, organizations, locations, and assets. The economic dimension was populated using the provided impact figure and inferring affected sectors from the description of damage to a 'commercial area' and 'power'. Provenance was set based on the 'single_source' reliability tag. Confidence was assessed as moderate (0.75) because the information, while detailed, comes from a single uncorroborated source."
+        },
+        "impact_evaluation": {
+            "_id": "69e904eb0f4c55668fd7ce7f",
+            "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+            "pipeline_version": "1.0",
+            "step": "impact_evaluation",
+            "processed_at": "2026-04-22T17:26:46.828Z",
+            "status": "completed",
+            "error": null,
+            "ai_log_id": "69e904eb0f4c55668fd7ce7e",
+            "synthesis_ref": "69e904d20f4c55668fd7ce7d",
+            "output": {
+                "severity": "low",
+                "urgency": "low",
+                "global_effect": "isolated",
+                "impact_dimensions": {
+                    "human": {
+                        "score": 1,
+                        "notes": "No casualties were reported. The primary human impact was temporary disruption to daily life for the population in the affected district, including power outages and temporary closure of storefronts."
+                    },
+                    "economic": {
+                        "score": 5,
+                        "notes": "The event caused an estimated $9 million in damages, primarily affecting the retail, commercial, and utilities sectors through damage to storefronts and business interruption."
+                    },
+                    "infrastructure": {
+                        "score": 3,
+                        "notes": "Damage was reported to power infrastructure, leading to outages. Drainage channels were overwhelmed, indicating a potential vulnerability. Damage to commercial buildings (storefronts) was the primary infrastructure impact."
+                    },
+                    "geopolitical": {
+                        "score": 0,
+                        "notes": "The event is localized within Accra, Ghana, with no reported geopolitical implications or effects on international relations."
+                    }
+                },
+                "overall_impact_score": 3,
+                "confidence": {
+                    "score": 0.75,
+                    "factors": [
+                        "Single source report",
+                        "Economic and population figures are uncorroborated",
+                        "Narrative is internally consistent",
+                        "Event is concluded"
+                    ]
+                },
+                "source_reliability_adjustment": "The assessment is based on a single, unnamed source. Key quantitative data, such as the economic impact and affected population, are uncorroborated and should be treated with caution. The overall impact score may be inflated if these figures are inaccurate."
+            },
+            "reasoning": "The assessment reflects a localized, short-duration event with no reported casualties. The overall impact is rated as low, primarily driven by the lack of human casualties and the rapid return to normalcy (e.g., schools reopening the next day). The event's urgency is low as it has concluded. The most significant factor is the economic dimension, with an estimated $9 million in damages to commercial properties and utilities, which elevates the economic impact score. However, this figure is from a single, uncorroborated source, a weakness captured in the confidence and source reliability sections. The infrastructure impact was disruptive but not catastrophic, and there were no geopolitical effects. The overall impact score of 3.0 reflects a significant local economic event but one with limited scope and severity in other dimensions."
+        },
+        "validation": {
+            "_id": "69e9052a0f4c55668fd7ce81",
+            "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+            "pipeline_version": "1.0",
+            "step": "validation",
+            "processed_at": "2026-04-22T17:27:50.229Z",
+            "status": "completed",
+            "error": null,
+            "ai_log_id": "69e9052a0f4c55668fd7ce80",
+            "synthesis_ref": "69e904d20f4c55668fd7ce7d",
+            "impact_evaluation_ref": "69e904eb0f4c55668fd7ce7f",
+            "output": {
+                "is_valid": true,
+                "proceed": true,
+                "checks": [
+                    {
+                        "check": "lineage_synthesis",
+                        "passed": true,
+                        "note": "Synthesis contains a 'provenance' section detailing the source."
+                    },
+                    {
+                        "check": "lineage_impact_evaluation",
+                        "passed": true,
+                        "note": "Impact evaluation contains a 'source_reliability_adjustment' section acknowledging data lineage and its implications."
+                    },
+                    {
+                        "check": "lineage_ids_consistent",
+                        "passed": true,
+                        "note": "No event IDs were provided for comparison."
+                    },
+                    {
+                        "check": "synthesis_completeness",
+                        "passed": true,
+                        "note": "Synthesis is well-formed, containing all required fields such as headline, category, facts, and provenance."
+                    },
+                    {
+                        "check": "impact_score_consistency",
+                        "passed": true,
+                        "note": "The overall_impact_score of 3 is a plausible aggregation of the dimension scores (Human: 1, Economic: 5, Infrastructure: 3, Geopolitical: 0), reflecting a balance between high economic impact and low human/geopolitical impact."
+                    },
+                    {
+                        "check": "severity_alignment",
+                        "passed": true,
+                        "note": "The overall_impact_score of 3 is consistent with the assigned 'low' severity rating."
+                    },
+                    {
+                        "check": "severity_source_delta",
+                        "passed": true,
+                        "note": "The pipeline-assessed severity 'low' matches the source-reported severity 'low'."
+                    },
+                    {
+                        "check": "confidence_threshold_met",
+                        "passed": true,
+                        "note": "Synthesis confidence (0.75) and impact confidence (0.75) both meet the >= 0.5 threshold."
+                    }
+                ],
+                "validation_summary": "All validation checks passed. The synthesis and impact evaluations are well-formed, internally consistent, and properly sourced. Confidence scores are above the threshold, and the assessed severity aligns with the input data and source report. The pipeline output is valid."
+            },
+            "reasoning": "The validation process confirmed the integrity and consistency of the pipeline's output. All checks were performed sequentially. Lineage was verified in both the synthesis and impact evaluation, with both outputs containing appropriate provenance and source reliability notes. The synthesis object was found to be complete and well-structured. The impact scoring was internally consistent, with the overall score being a plausible aggregation of the dimensional scores. The pipeline's assessed severity of 'low' aligns with the calculated impact score and also matches the severity reported by the source system. Finally, the confidence scores for both synthesis and impact assessment exceeded the required threshold of 0.5. As all checks passed, the output is considered valid and ready for the next stage."
+        },
+        "relevance_matching": {
+            "_id": "69e9052d0f4c55668fd7ce82",
+            "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+            "pipeline_version": "1.0",
+            "step": "relevance_matching",
+            "processed_at": "2026-04-22T17:28:13.560Z",
+            "status": "completed",
+            "error": null,
+            "impact_evaluation_ref": "69e904eb0f4c55668fd7ce7f",
+            "validation_ref": "69e9052a0f4c55668fd7ce81",
+            "output": {
+                "event_severity": "low",
+                "matched_users": [
+                    {
+                        "user_id": "usr-001",
+                        "channels": [
+                            "email"
+                        ],
+                        "severity_threshold": "low",
+                        "match_reason": "event severity >= user threshold (gateway rule)"
+                    }
+                ],
+                "total_matched": 1,
+                "notification_warranted": true
+            }
+        },
+        "notification_signal": {
+            "_id": "69e9053c0f4c55668fd7ce83",
+            "event_id": "6461e2ee-4dde-40e9-8931-b245dbdfc283",
+            "pipeline_version": "1.0",
+            "step": "notification_signal",
+            "emitted_at": "2026-04-22T17:28:18.737Z",
+            "status": "emitted",
+            "error": null,
+            "relevance_matching_ref": "69e9052d0f4c55668fd7ce82",
+            "matched_user_count": 1,
+            "stream_message_id": "1776878908186-0"
+        }
+    }
+}
