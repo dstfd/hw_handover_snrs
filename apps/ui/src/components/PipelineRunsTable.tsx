@@ -62,7 +62,7 @@ export function PipelineRunsTable({
             </TableRow>
           ) : (
             data.map((row) => (
-              <TableRow key={row.event_id}>
+              <TableRow key={`${row.event_id}:${row.processed_at}`}>
                 <TableCell className="font-mono text-xs">
                   <Link
                     href={`/admin/pipeline/${encodeURIComponent(row.event_id)}`}

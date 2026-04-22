@@ -15,6 +15,24 @@ function stripJsonFences(text: string): string {
   return t;
 }
 
+/** Some models return `"output": "{...}"` instead of a nested object. */
+function unwrapStringifiedOutputField(parsed: unknown): void {
+  if (!parsed || typeof parsed !== "object") return;
+  const o = parsed as Record<string, unknown>;
+  const out = o["output"];
+  if (typeof out !== "string") return;
+  const t = out.trim();
+  if (t === "") {
+    throw new Error('Model JSON has "output" as an empty string');
+  }
+  try {
+    o["output"] = JSON.parse(t) as unknown;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    throw new Error(`Model JSON has "output" as text but it is not valid JSON: ${msg}`);
+  }
+}
+
 function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
   return new Promise((resolve, reject) => {
     const to = setTimeout(
@@ -103,12 +121,23 @@ export function createGeminiConnector(deps: {
         "vertex-ai"
       );
       const result = gen as unknown as {
-        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-        usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number };
+        response?: {
+          candidates?: Array<{
+            content?: { parts?: Array<{ text?: string }> };
+            finishReason?: string;
+          }>;
+          usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number };
+        };
       };
-      rawText = result.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      const resp = result.response;
+      const cand0 = resp?.candidates?.[0];
+      rawText = cand0?.content?.parts?.[0]?.text ?? "";
       duration_ms = Date.now() - start;
-      const usage = result.usageMetadata;
+      if (!rawText.trim()) {
+        const fr = cand0?.finishReason ?? "unknown";
+        throw new Error(`Empty model response (finish_reason: ${fr})`);
+      }
+      const usage = resp?.usageMetadata;
       if (usage) {
         tokens = {
           input: usage.promptTokenCount ?? 0,
@@ -140,7 +169,12 @@ export function createGeminiConnector(deps: {
 
     let parsed: unknown;
     try {
-      parsed = JSON.parse(stripJsonFences(rawText)) as unknown;
+      const trimmed = stripJsonFences(rawText);
+      if (!trimmed) {
+        throw new Error("empty after stripping fences");
+      }
+      parsed = JSON.parse(trimmed) as unknown;
+      unwrapStringifiedOutputField(parsed);
     } catch (e) {
       const errText = `Unparseable JSON: ${e instanceof Error ? e.message : String(e)}`;
       const failDoc: Omit<AiLogDoc, "_id"> = {

@@ -46,17 +46,28 @@ export async function listSynthesisForRuns(
   limit: number
 ): Promise<PipelineSynthesisDoc[]> {
   const skip = (page - 1) * limit;
-  return col
-    .find({ pipeline_version })
-    .sort({ processed_at: -1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
+  const cur = col.aggregate<PipelineSynthesisDoc>([
+    { $match: { pipeline_version } },
+    { $sort: { processed_at: -1 } },
+    { $group: { _id: "$event_id", doc: { $first: "$$ROOT" } } },
+    { $replaceRoot: { newRoot: "$doc" } },
+    { $sort: { processed_at: -1 } },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
+  return cur.toArray();
 }
 
+/** Distinct `event_id` values that have at least one synthesis row for this version. */
 export async function countSynthesis(
   col: Collection<PipelineSynthesisDoc>,
   pipeline_version: string
 ): Promise<number> {
-  return col.countDocuments({ pipeline_version });
+  const cur = col.aggregate<{ total: number }>([
+    { $match: { pipeline_version } },
+    { $group: { _id: "$event_id" } },
+    { $count: "total" },
+  ]);
+  const row = await cur.next();
+  return row?.total ?? 0;
 }

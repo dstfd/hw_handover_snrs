@@ -1,7 +1,9 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { Db } from "mongodb";
+import { ObjectId } from "mongodb";
 import type { IntelConfig } from "../services/config.js";
 import { fetchEventById } from "../services/dataScoutClient.js";
+import type { DataScoutEventPayload } from "../types.js";
 import {
   listSynthesisForRuns,
   countSynthesis,
@@ -27,6 +29,7 @@ import { toJsonApiValue } from "../util/jsonApi.js";
 import type { createGeminiConnector } from "../services/geminiConnector.js";
 import type { Redis } from "ioredis";
 import { findImpactByEvent } from "../repositories/pipelineImpactEvaluationRepo.js";
+import { aiLogsCollection, findAiLogById } from "../repositories/aiLogsRepo.js";
 
 type Gemini = ReturnType<typeof createGeminiConnector>;
 
@@ -110,6 +113,21 @@ export const pipelinePlugin: FastifyPluginAsync<{
   });
 
   app.get<{
+    Params: { event_id: string; ai_log_id: string };
+  }>("/pipeline/:event_id/ai-log/:ai_log_id", async (request, reply) => {
+    const { event_id, ai_log_id } = request.params;
+    if (!ObjectId.isValid(ai_log_id)) {
+      return reply.status(400).send({ error: "Invalid ai_log_id" });
+    }
+    const col = aiLogsCollection(db);
+    const doc = await findAiLogById(col, new ObjectId(ai_log_id));
+    if (doc == null || doc.event_id !== event_id) {
+      return reply.status(404).send({ error: "Not found" });
+    }
+    return toJsonApiValue(doc);
+  });
+
+  app.get<{
     Params: { event_id: string };
     Querystring: { pipeline_version?: string };
   }>("/pipeline/:event_id", async (request) => {
@@ -121,11 +139,20 @@ export const pipelinePlugin: FastifyPluginAsync<{
     const rel = await findRelevanceByEvent(relevanceCollection(db), event_id, pipeline_version);
     const sig = await findSignalByEvent(signalCollection(db), event_id, pipeline_version);
     const o = await computeOutcome(db, event_id, pipeline_version);
+    let source_event: DataScoutEventPayload | null = null;
+    let source_event_fetch_error: string | null = null;
+    try {
+      source_event = await fetchEventById(config.datascoutBaseUrl, event_id);
+    } catch (e) {
+      source_event_fetch_error = e instanceof Error ? e.message : String(e);
+    }
     return toJsonApiValue({
       event_id,
       pipeline_version,
       outcome: o.outcome,
       matched_user_count: o.matched_user_count,
+      source_event,
+      source_event_fetch_error,
       steps: {
         synthesis: syn ?? null,
         impact_evaluation: imp ?? null,

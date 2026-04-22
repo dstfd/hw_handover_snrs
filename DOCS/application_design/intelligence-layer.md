@@ -399,14 +399,19 @@ Used by the admin UI to browse, inspect, delete, and replay pipeline runs.
 ```
 GET /pipeline?page=&limit=
 ```
-Lists recent pipeline runs. Returns `event_id`, `processed_at`, `outcome`, `matched_user_count` for each run. Sourced from `pipeline_notification_signals` + `pipeline_relevance_matching`.
+Lists recent pipeline runs. Returns `event_id`, `processed_at`, `outcome`, `matched_user_count` for each run. Rows are taken from `pipeline_synthesis`: **one row per `event_id`** (the document with the latest `processed_at` for that lineage), so replays and failed duplicate inserts do not create duplicate list entries. `total` is the count of **distinct** `event_id` values for the requested `pipeline_version`, not a raw document count.
 
 ```
 GET /pipeline/:event_id
 ```
-Returns all step documents for a given `event_id` across all collections, ordered by step sequence. Used to populate the pipeline detail view in the admin UI.
+Returns all step documents for a given `event_id` across all collections, ordered by step sequence. Used to populate the pipeline detail view in the admin UI. Also includes `source_event` (Data Scout `GET /events/:event_id` payload) and `source_event_fetch_error` when that fetch fails — for auditing synthesis against ingested content.
 
 `outcome` values: `notified | skipped | failed | incomplete`. `incomplete` means the pipeline run exists but has not yet reached a terminal state (e.g. a step was deleted for replay and the replay has not run yet). The list endpoint (`GET /pipeline`) maps `incomplete` to `failed`; the detail endpoint exposes the raw value — callers must handle `incomplete`.
+
+```
+GET /pipeline/:event_id/ai-log/:ai_log_id
+```
+Returns one `ai_logs` document (JSON) for admin inspection of model I/O. **`event_id` in the path must match the document’s `event_id`.** If `ai_log_id` is not a valid MongoDB ObjectId hex string → `400`. If the document is missing, or the stored `event_id` does not match the path → `404` (avoids IDOR). Used by the admin UI to show **sent (prompt)** and **received (response)** without bloating `GET /pipeline/:event_id` (e.g. Notification Gateway aggregate). No query parameters required in v1; the log document already includes `pipeline_version`.
 
 ```
 DELETE /pipeline/:event_id/step/:step

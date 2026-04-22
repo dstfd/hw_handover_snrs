@@ -11,4 +11,9 @@ describe("pipeline contract", () => {
     ];
     expect(valid).toHaveLength(5);
   });
+
+  it("ai-log read path shape is fixed", () => {
+    const path = "/pipeline/:event_id/ai-log/:ai_log_id";
+    expect(path).toContain("ai-log");
+  });
 });

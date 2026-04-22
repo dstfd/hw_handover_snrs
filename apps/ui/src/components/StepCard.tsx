@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import type { StepName } from "@/lib/types";
+import type { AiLogDetail, StepName } from "@/lib/types";
 
 function stepLabel(step: StepName): string {
   switch (step) {
@@ -45,6 +45,14 @@ function canReplay(doc: unknown): boolean {
   return doc == null;
 }
 
+function isAiStep(step: StepName): boolean {
+  return (
+    step === "synthesis" ||
+    step === "impact_evaluation" ||
+    step === "validation"
+  );
+}
+
 export function StepCard({
   eventId,
   step,
@@ -57,6 +65,10 @@ export function StepCard({
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiDetail, setAiDetail] = useState<AiLogDetail | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
 
   const status =
     doc && typeof doc["status"] === "string" ? doc["status"] : null;
@@ -64,6 +76,49 @@ export function StepCard({
     doc && typeof doc["processed_at"] === "string"
       ? doc["processed_at"]
       : null;
+
+  const rawAiLogId = doc && doc["ai_log_id"];
+  const aiLogId =
+    typeof rawAiLogId === "string" && rawAiLogId.length > 0
+      ? rawAiLogId
+      : null;
+  const showAiCall = Boolean(doc) && isAiStep(step) && aiLogId != null;
+
+  useEffect(() => {
+    setAiOpen(false);
+    setAiDetail(null);
+    setAiError(null);
+    setAiLoading(false);
+  }, [eventId, aiLogId]);
+
+  async function loadAiLog() {
+    if (aiLogId == null) return;
+    setAiError(null);
+    setAiLoading(true);
+    try {
+      const res = await fetch(
+        `/api/pipeline/${encodeURIComponent(eventId)}/ai-log/${encodeURIComponent(aiLogId)}`
+      );
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        setAiError(j.error ?? `Load failed (${res.status})`);
+        return;
+      }
+      const j = (await res.json()) as AiLogDetail;
+      setAiDetail(j);
+    } catch {
+      setAiError("Network error");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function onAiOpenChange(open: boolean) {
+    setAiOpen(open);
+    if (open && aiDetail == null && !aiLoading) {
+      void loadAiLog();
+    }
+  }
 
   async function doDelete() {
     setError(null);
@@ -128,18 +183,64 @@ export function StepCard({
       </CardHeader>
       <CardContent>
         {doc ? (
-          <Collapsible>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="mb-2">
-                Toggle JSON
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <pre className="max-h-96 overflow-auto rounded-md border bg-muted/50 p-3 text-xs">
-                {JSON.stringify(doc, null, 2)}
-              </pre>
-            </CollapsibleContent>
-          </Collapsible>
+          <>
+            {showAiCall ? (
+              <Collapsible open={aiOpen} onOpenChange={onAiOpenChange}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="sm" className="mb-2">
+                    {"AI call: sent & received"}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  {aiLoading ? (
+                    <p className="text-muted-foreground text-sm">Loading…</p>
+                  ) : null}
+                  {aiError ? (
+                    <p className="text-destructive text-sm">{aiError}</p>
+                  ) : null}
+                  {aiDetail && !aiLoading ? (
+                    <div className="space-y-3">
+                      <p className="text-muted-foreground text-xs">
+                        {aiDetail.status} · {aiDetail.duration_ms}ms · in{" "}
+                        {aiDetail.tokens.input} / out {aiDetail.tokens.output}{" "}
+                        tokens
+                        {aiDetail.model ? ` · ${aiDetail.model}` : ""}
+                        {aiDetail.error ? ` · ${aiDetail.error}` : ""}
+                      </p>
+                      <div>
+                        <p className="text-muted-foreground mb-1 text-xs font-medium">
+                          Sent (prompt)
+                        </p>
+                        <pre className="max-h-64 overflow-auto rounded-md border bg-muted/50 p-3 text-xs">
+                          {aiDetail.prompt}
+                        </pre>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground mb-1 text-xs font-medium">
+                          Received (response)
+                        </p>
+                        <pre className="max-h-64 overflow-auto rounded-md border bg-muted/50 p-3 text-xs">
+                          {aiDetail.response}
+                        </pre>
+                      </div>
+                    </div>
+                  ) : null}
+                </CollapsibleContent>
+              </Collapsible>
+            ) : null}
+            <Collapsible>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm" className="mb-2">
+                  Toggle JSON
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <pre className="max-h-96 overflow-auto rounded-md border bg-muted/50 p-3 text-xs">
+                  {JSON.stringify(doc, null, 2)}
+                </pre>
+              </CollapsibleContent>
+            </Collapsible>
+          </>
         ) : (
           <p className="text-muted-foreground text-sm">
             No step output — not run or deleted for replay.

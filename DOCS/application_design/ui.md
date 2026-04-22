@@ -72,13 +72,15 @@ No logic in the UI — the form sends the selection as-is to the backend. The ba
 
 Available to `admin` role only.
 
-Lists recent pipeline runs. Each run is identified by `event_id`. Calls `GET /pipeline` on the Intelligence Layer.
+Lists recent pipeline runs. Each run is identified by `event_id` (**one list row per lineage** — the Intelligence Layer dedupes multiple `pipeline_synthesis` documents per `event_id`). Calls `GET /pipeline` on the Intelligence Layer.
 
 **Run list columns:** `event_id`, `processed_at`, `outcome` (notified / skipped / failed), `matched_user_count`
 
 **Clicking a run** expands to the pipeline detail view for that `event_id` — calls `GET /pipeline/:event_id`.
 
 **Pipeline detail view:**
+
+- **Source event (Data Scout)** — first card: raw JSON from Data Scout `GET /events/:event_id` (`source_event` on the IL response), or `source_event_fetch_error` if the fetch failed. Use this to compare ingested content to the synthesis step output.
 
 Displays each pipeline step as a card in sequential order:
 
@@ -89,6 +91,7 @@ Displays each pipeline step as a card in sequential order:
 Each card shows:
 - Step name and status (`completed` / `failed` / `skipped`)
 - `processed_at` timestamp
+- **AI call (synthesis, impact evaluation, validation only)** — when the step document has `ai_log_id`, a collapsible **“AI call: sent & received”** loads `GET /api/pipeline/:event_id/ai-log/:ai_log_id` (proxy to IL) on first open and shows **Sent (prompt)** and **Received (response)** plus a one-line metadata summary (status, duration, token counts, model, error if any). Lazy-loaded so `GET /pipeline/:event_id` stays lean for other callers.
 - Expandable JSON block — the full step output document
 - **Delete button** — calls `DELETE /api/pipeline/:event_id/step/:step` (proxy to IL `DELETE /pipeline/...`). Clears the step output from MongoDB. Shown when the step document exists and status is a successful terminal state (`completed` for AI steps, `emitted` for the notification signal step).
 - **Replay button** — calls `POST /api/pipeline/:event_id/replay/:step` (proxy to IL). Only available when no current output exists for that step (e.g. after delete).

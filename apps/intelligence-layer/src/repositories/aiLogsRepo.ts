@@ -42,3 +42,10 @@ export async function findAiLogs(
     .toArray();
   return { data, total };
 }
+
+export async function findAiLogById(
+  col: Collection<AiLogDoc>,
+  id: ObjectId
+): Promise<AiLogDoc | null> {
+  return col.findOne({ _id: id });
+}

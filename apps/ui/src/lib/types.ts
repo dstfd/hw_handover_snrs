@@ -22,6 +22,29 @@ export type LoginResponse = {
   };
 };
 
+/** Data Scout `GET /events/:event_id` — aligns with `apps/intelligence-layer` `DataScoutEventPayload`. */
+export type DataScoutEventPayload = {
+  event_id: string;
+  source_event_id: string;
+  category: string;
+  headline: string;
+  summary: string;
+  severity: string;
+  geographic_scope: string;
+  location_country: string;
+  location_region: string | null;
+  source_reliability: string;
+  status: string;
+  affected_population_estimate: number | null;
+  economic_impact_usd: number | null;
+  casualties_confirmed: number | null;
+  casualties_estimated: number | null;
+  tags: string[];
+  original_published_at: string;
+  ingested_at: string;
+  emitted_at: string | null;
+};
+
 export type PipelineRunSummary = {
   event_id: string;
   processed_at: string;
@@ -121,6 +144,25 @@ export type StepName =
   | "relevance_matching"
   | "notification_signal";
 
+/** Intelligence Layer `GET /pipeline/:event_id/ai-log/:ai_log_id` (ObjectIds as hex in JSON). */
+export type AiLogDetail = {
+  _id?: string;
+  event_id: string;
+  pipeline_version: string;
+  step: "synthesis" | "impact_evaluation" | "validation";
+  called_at: string;
+  model: string;
+  temperature: number;
+  max_output_tokens?: number;
+  prompt: string;
+  response: string;
+  tokens: { input: number; output: number };
+  reasoning: string;
+  duration_ms: number;
+  status: "success" | "failed";
+  error: string | null;
+};
+
 export type PipelineSynthesisDoc = {
   _id?: string;
   event_id: string;
@@ -195,6 +237,10 @@ export type PipelineDetailResponse = {
   pipeline_version: string;
   outcome: "notified" | "skipped" | "failed" | "incomplete";
   matched_user_count: number;
+  /** Raw ingested event from Data Scout (for comparing synthesis output to source). */
+  source_event?: DataScoutEventPayload | null;
+  /** Set when Data Scout fetch fails (service down, 404, etc.). */
+  source_event_fetch_error?: string | null;
   steps: {
     synthesis: PipelineSynthesisDoc | null;
     impact_evaluation: PipelineImpactDoc | null;
