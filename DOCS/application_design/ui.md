@@ -10,7 +10,7 @@ Authentication is handled by the Notification Gateway. The UI stores the JWT and
 
 ## Technology
 
-- **React + TypeScript + Vite** — lightweight, no SSR needed
+- **Next.js + TypeScript + shadcn** — display-only; no business logic in the app layer (all logic stays in services)
 - **Port:** `4104`
 
 ---
@@ -154,8 +154,8 @@ Auto-refreshes every 30 seconds. The UI sets a timer — no WebSocket needed.
 
 | Variable | Description | Default |
 |---|---|---|
-| `VITE_API_NOTIF_GW` | Notification Gateway base URL | `http://localhost:4103` |
-| `VITE_API_INTEL` | Intelligence Layer base URL | `http://localhost:4102` |
+| `NEXT_PUBLIC_API_NOTIF_GW` | Notification Gateway base URL (browser) | `http://localhost:4103` |
+| `NEXT_PUBLIC_API_INTEL` | Intelligence Layer base URL (browser) | `http://localhost:4102` |
 | `UI_PORT` | Dev server port | `4104` |
 
 ---

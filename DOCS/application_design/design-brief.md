@@ -150,7 +150,7 @@ A single startup script launches all services in dependency order. Port range: *
 
 The script polls each service's `GET /health` endpoint before starting the next. If a service fails to become healthy within a timeout, the script halts with a clear error.
 
-Script location: `scripts/start.sh`
+Script location: `scripts/start.sh` (**implemented**). It starts **MagicBall → Data Scout → Intelligence Layer → Notification Gateway** (ports 4100–4103) in that order, health-gated on each `GET /health`. Set `SKIP_INTELLIGENCE=1` to run only MagicBall and Data Scout (e.g. when MongoDB/Gemini are not available). Set `SKIP_NOTIFICATION_GATEWAY=1` after Intelligence Layer to skip the gateway (IL-only local). **Prerequisites:** local Redis, MongoDB, a valid `GEMINI_API_KEY` for Intelligence Layer AI steps, and a seeded Notification Gateway user directory (`pnpm --filter notification-gateway seed`) before relevance/delivery end-to-end runs.
 
 ---
 

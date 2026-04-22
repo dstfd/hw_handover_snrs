@@ -120,6 +120,16 @@ CREATE TABLE poll_log (
     events_emitted    INTEGER NOT NULL DEFAULT 0,  -- successfully placed on Redis Stream
     error_message     TEXT              -- null unless status = error
 );
+
+-- Per-event operational lines (ingest / Redis emit), for admin log trace by event_id
+CREATE TABLE event_ops_log (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    logged_at  TEXT NOT NULL,
+    level      TEXT NOT NULL,
+    event_id   TEXT,
+    source     TEXT NOT NULL,
+    message    TEXT NOT NULL
+);
 ```
 
 ---
@@ -146,7 +156,7 @@ Lookup by MagicBall original ID. Useful for tracing back from source.
 ```
 GET /logs?level=&event_id=&page=&limit=
 ```
-Returns Data Scout operational logs from `poll_log`. Used by the Notification Gateway's log aggregator.
+Returns merged operational logs from `poll_log` and `event_ops_log` (ingest/stream lines carry `event_id` when known). Used by the Notification Gateway's log aggregator.
 
 ```
 GET /health
@@ -172,6 +182,7 @@ Returns service status, last poll timestamp, and SQLite connection state.
 All logs stay within Data Scout's own SQLite. No external log sink.
 
 - Every poll attempt → one row in `poll_log`
+- Successful Redis emit or emit failure per event → optional row in `event_ops_log` (for cross-service `event_id` tracing)
 - Dedup counts are part of the poll log row (`events_duplicate`)
 - Emit failures are visible via `emitted_at = null` on `ingested_events` rows
 - No log is written to stdout beyond startup confirmation and fatal errors

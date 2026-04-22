@@ -16,6 +16,8 @@ All Gemini call configuration lives in one file:
 gemini-connector.json
 ```
 
+**In this monorepo:** the runtime file used at process `cwd` is [`apps/intelligence-layer/gemini-connector.json`](../../apps/intelligence-layer/gemini-connector.json). The copy under `DOCS/application_design/gemini-connector.json` stays aligned as the documented twin; `GEMINI_MANIFEST_PATH` overrides the path in any environment.
+
 No pipeline step defines its own model, temperature, or token limit. Steps reference their step key (`synthesis`, `impact_evaluation`, `validation`) and the connector resolves the correct config from the manifest. This means:
 
 - Tuning a temperature → edit one file, all steps pick it up

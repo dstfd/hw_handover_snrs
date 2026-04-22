@@ -141,7 +141,7 @@ GET /admin/queue
 Returns all events with their queue position and current availability state — shows what has been released and what is pending.
 
 ```
-GET /logs?page=&limit=
+GET /logs?level=&event_id=&page=&limit=
 ```
 Returns MagicBall operational logs from `publish_log` and `api_access_log`. Used by the Notification Gateway's log aggregator.
 
@@ -182,7 +182,9 @@ On first run, the seeder reads `world_events_test_dataset.json`, inserts all 35 
 The seeder is idempotent — re-running on a populated DB does nothing (`INSERT OR IGNORE`).
 
 ```bash
-node scripts/seed.js --db ./magicball.db --data ./dataset_magicball/world_events_test_dataset.json
+# From monorepo root: `cd apps/magicball && pnpm seed -- --db ./magicball.db`
+# Or with env: `MAGICBALL_DB_PATH=./magicball.db pnpm seed -- --data <path-to-json>`
+# Default data file: repo `Temp/dataset_magicball/world_events_test_dataset.json`
 ```
 
 ---

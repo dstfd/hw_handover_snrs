@@ -7,4 +7,21 @@
 # Common local secrets and deps (if added later)
 .env
 .env.*
+!.env.example
 node_modules/
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+
+# SQLite databases (runtime state)
+*.db
+*.db-shm
+*.db-wal
+
+# pnpm
+.pnpm-store/
+
+#logs
+logs/
+Temp/

@@ -300,6 +300,7 @@ Every AI step writes a document to the `ai_logs` collection before the step docu
   "called_at": "<ISO8601>",
   "model": "gemini-2.5-pro",
   "temperature": 0.0,
+  "max_output_tokens": 0,
   "prompt": "<full prompt text sent to model>",
   "response": "<full response text received>",
   "tokens": {
@@ -307,7 +308,9 @@ Every AI step writes a document to the `ai_logs` collection before the step docu
     "output": 0
   },
   "reasoning": "<model's reasoning field, extracted from structured response>",
-  "duration_ms": 0
+  "duration_ms": 0,
+  "status": "success | failed",
+  "error": null
 }
 ```
 
@@ -403,6 +406,8 @@ GET /pipeline/:event_id
 ```
 Returns all step documents for a given `event_id` across all collections, ordered by step sequence. Used to populate the pipeline detail view in the admin UI.
 
+`outcome` values: `notified | skipped | failed | incomplete`. `incomplete` means the pipeline run exists but has not yet reached a terminal state (e.g. a step was deleted for replay and the replay has not run yet). The list endpoint (`GET /pipeline`) maps `incomplete` to `failed`; the detail endpoint exposes the raw value — callers must handle `incomplete`.
+
 ```
 DELETE /pipeline/:event_id/step/:step
 ```
@@ -413,10 +418,12 @@ POST /pipeline/:event_id/replay/:step
 ```
 Re-runs the named step for the given `event_id`. The step fetches its input from the previous step's stored document as normal. Fails if the previous step's document does not exist.
 
+**Version constraint:** `pipeline_version` must match the service's current `PIPELINE_VERSION` env var. Replaying a run stored under a different version is rejected — this prevents mixing pipeline configs across versions. Pass `?pipeline_version=<version>` if the default does not match the stored run's version (though cross-version replay will still be rejected).
+
 ```
 GET /logs?level=&event_id=&page=&limit=
 ```
-Returns Intelligence Layer operational logs — AI call records from `ai_logs` and pipeline failures. Used by the Notification Gateway's log aggregator.
+Returns normalized log lines for aggregation: each item has `timestamp`, `service: "intelligence-layer"`, `level`, `event_id`, `source: "ai_logs"`, `message` (derived from `ai_logs` documents). Query `level=error` filters MongoDB `status=failed`; `level=info` filters successful AI calls; `warn` / `debug` return empty (not stored on `ai_logs` today). Used by the Notification Gateway's log aggregator.
 
 ```
 GET /health
@@ -434,9 +441,11 @@ Returns service status, last pipeline run timestamp, and MongoDB connection stat
 | `INTEL_MONGO_DB` | Database name | `intelligence` |
 | `REDIS_URL` | Redis connection string | `redis://localhost:6379` |
 | `DATASCOUT_BASE_URL` | Data Scout API base URL | `http://localhost:4101` |
-| `NOTIFICATION_GW_BASE_URL` | Notification Gateway API base URL | `http://localhost:4103` |
+| `NOTIFICATION_GW_BASE_URL` | Notification Gateway API base URL — **required for the full pipeline path** (Step 4 calls `GET /users` here; fails fast if unavailable) | `http://localhost:4103` |
 | `GEMINI_API_KEY` | Gemini API key | — |
-| `GEMINI_MANIFEST_PATH` | Path to the Gemini connector manifest | `./gemini-connector.json` |
+| `GEMINI_MANIFEST_PATH` | Path to the Gemini connector manifest (absolute or **resolved from process `cwd`**) | `./gemini-connector.json` |
+
+**Runtime note (this repo):** the executable copy of the manifest lives at [`apps/intelligence-layer/gemini-connector.json`](../../apps/intelligence-layer/gemini-connector.json) (same content as the design copy under `DOCS/application_design/gemini-connector.json`). Start the service with `cwd` = `apps/intelligence-layer` or set `GEMINI_MANIFEST_PATH` to an absolute path. Cloud and local use the same code; only env/connections differ.
 
 Model, temperatures, token limits, and retry policy are **not configured here** — they are owned by `gemini-connector.json`. See [gemini-connector.md](gemini-connector.md).
 | `PIPELINE_VERSION` | Version tag applied to all pipeline documents | `1.0` |
@@ -446,7 +455,9 @@ Model, temperatures, token limits, and retry policy are **not configured here** 
 
 ## Orchestration — LlamaIndex Workflows
 
-The pipeline is orchestrated using **LlamaIndex Workflows** (TypeScript). Each pipeline step is a `@step` decorated handler. Steps communicate via typed events — no in-memory state is passed between them beyond the IDs needed to fetch from MongoDB.
+The design uses **LlamaIndex Workflows** (TypeScript) for clarity of step boundaries, typed events, and fail-fast semantics. **In this repository**, the same behaviour is implemented as a **sequential `runIntelligencePipeline`** in `apps/intelligence-layer` (one module per step, all analytical inputs read from MongoDB / Data Scout — no in-memory handoff of facts). A future change could swap the runner for `@llamaindex/workflow` without changing persistence contracts.
+
+Concretely, the architectural model is: each pipeline step is a discrete handler, steps communicate as **typed design events** (see below) — no in-memory analytical state is passed between them beyond the IDs needed to fetch from MongoDB.
 
 ### Workflow events
 

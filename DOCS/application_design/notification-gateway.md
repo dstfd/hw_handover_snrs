@@ -13,6 +13,8 @@ It owns no analytical logic. It does not decide who gets notified or why — tha
 - Consume `events:notification_signal` from the Redis Stream
 - Fetch matched users from `pipeline_relevance_matching` via Intelligence Layer API
 - Fetch event headline and facts from `pipeline_synthesis` via Intelligence Layer API
+
+**Implemented IL read surface (this repo):** the gateway (when built) should use `GET {INTEL_BASE_URL}/pipeline/:event_id` and read the `steps.relevance_matching` and `steps.synthesis` objects from the response (or narrow endpoints can be added later; the aggregate route is the stable contract for inspection).
 - Look up full user records (contact details, channels) from its own SQLite
 - Route each notification through the correct channel interface
 - Log every delivery attempt to its own SQLite
@@ -190,8 +192,8 @@ JWT-based. Mocked for now — no external identity provider. The Notification Ga
 | Role required | Endpoints |
 |---|---|
 | Any authenticated | `GET /users/me`, `GET /health` |
-| `admin` only | `GET /users`, `GET /users/:user_id`, `PATCH /admin/controls` |
-| Internal (no auth) | `GET /users?min_severity=` (called by Intelligence Layer — internal network only) |
+| `admin` only | `GET /users` (list mode), `GET /users/:user_id`, `GET /admin/health`, `GET /admin/logs` |
+| Internal (no auth) | `GET /users?min_severity=&category=` (both required; called by Intelligence Layer — internal network only) |
 
 ---
 
@@ -253,6 +255,7 @@ Fetches logs from each service's `GET /logs` endpoint, merges by timestamp, and 
 |---|---|---|
 | `NOTIF_GW_PORT` | Port the API listens on | `4103` |
 | `NOTIF_GW_DB_PATH` | Path to SQLite database | `./notifgw.db` |
+| `NOTIF_GW_PUBLIC_URL` | This service’s own HTTP base URL (for `/admin/health` and `/admin/logs` when calling itself; set to public URL in cloud) | `http://127.0.0.1:<NOTIF_GW_PORT>` |
 | `REDIS_URL` | Redis connection string | `redis://localhost:6379` |
 | `INTEL_BASE_URL` | Intelligence Layer API base URL | `http://localhost:4102` |
 | `DATASCOUT_BASE_URL` | Data Scout API base URL | `http://localhost:4101` |
@@ -262,6 +265,16 @@ Fetches logs from each service's `GET /logs` endpoint, merges by timestamp, and 
 | `SMTP_HOST` | SMTP host (present but unused while mocked) | `localhost` |
 | `SMTP_PORT` | SMTP port (present but unused while mocked) | `1025` |
 | `SLACK_WEBHOOK_URL` | Slack webhook URL (present but unused while mocked) | — |
+
+---
+
+## Implementation notes (this repository)
+
+- **Service:** `apps/notification-gateway` — Fastify + SQLite + Redis consumer on `events:notification_signal`, consumer group `notification-gateway`.
+- **Idempotency:** table `processed_signals` keyed by Redis stream message id; one successful delivery transaction per message before `XACK`.
+- **Delivery:** reads `GET {INTEL_BASE_URL}/pipeline/:event_id`, uses `steps.relevance_matching` for matched users/channels, mocked `email` / `slack` channels, rows in `notification_log` with `status` `mocked` or `failed`.
+- **`GET /users`:** without auth query params → admin-only list `{ users: [...] }`. With `min_severity` and `category` → internal relevance array (no JWT), same contract as Intelligence Layer `fetchUsersForRelevance`.
+- **`PATCH /admin/controls`:** not implemented — reserved; no contract defined yet.
 
 ---
 
@@ -289,4 +302,4 @@ All logs stay within the Notification Gateway's own SQLite. No external log sink
 - Real Slack webhook delivery (replace mock in `SlackChannel`)
 - Additional channel interfaces (e.g. SMS, push, webhook)
 - User management endpoints (create, update, deactivate) — for admin UI
-- `pipeline_notification_signals` MongoDB collection (Intelligence Layer side of delivery records)
+- ~~`pipeline_notification_signals` MongoDB collection (Intelligence Layer side of delivery records)~~ **Implemented in Intelligence Layer**; gateway may still add its own cross-reference rows if needed for delivery analytics
