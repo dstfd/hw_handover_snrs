@@ -1,0 +1,10 @@
+# Local AI/editor settings (absolute paths, machine-specific)
+.claude/settings.local.json
+
+# OS
+.DS_Store
+
+# Common local secrets and deps (if added later)
+.env
+.env.*
+node_modules/

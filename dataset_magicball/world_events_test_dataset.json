@@ -1,0 +1,912 @@
+[
+  {
+    "id": "055f7470-3ce1-461a-8a77-f4555e671a5c",
+    "category": "breaking_news",
+    "headline": "Port workers in Valencia halted cargo handling after a labor dispute escalated overnight.",
+    "summary": "Union members at Valencia's main container terminals stopped work after wage talks broke down, delaying several short-haul shipments and creating localized congestion. Port authorities said emergency operations remain active for medical and perishable cargo while negotiations continue.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "Spain",
+      "region": "Valencian Community"
+    },
+    "source_reliability": "multi_source",
+    "status": "ongoing",
+    "affected_population_estimate": 180000,
+    "economic_impact_usd": 12000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "labor",
+      "port",
+      "shipping"
+    ],
+    "published_at": "2026-04-22T08:48:00Z"
+  },
+  {
+    "id": "f8a73981-a730-4de7-9308-5ea5f7eb3592",
+    "category": "breaking_news",
+    "headline": "A municipal water advisory was issued in Christchurch after contamination was detected in two neighborhood reservoirs.",
+    "summary": "Local officials advised residents in the western districts to boil tap water after routine testing detected bacterial contamination. Schools remained open, but bottled water distribution points were established while crews isolated the affected reservoirs.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "New Zealand",
+      "region": "Canterbury"
+    },
+    "source_reliability": "confirmed",
+    "status": "developing",
+    "affected_population_estimate": 95000,
+    "economic_impact_usd": null,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "water",
+      "public-health",
+      "municipal"
+    ],
+    "published_at": "2026-04-22T08:41:00Z"
+  },
+  {
+    "id": "bd01ec94-7a2e-4010-bce5-6213b70fc829",
+    "category": "breaking_news",
+    "headline": "Police in Curitiba reopened central transit routes after a false bomb threat disrupted morning service.",
+    "summary": "Authorities evacuated two bus terminals and several adjacent office buildings after an anonymous threat was received before rush hour. Explosive ordnance teams cleared the area within three hours, and service resumed without reported injuries.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "Brazil",
+      "region": "Paraná"
+    },
+    "source_reliability": "single_source",
+    "status": "concluded",
+    "affected_population_estimate": 42000,
+    "economic_impact_usd": null,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "security",
+      "transport",
+      "evacuation"
+    ],
+    "published_at": "2026-04-22T08:35:00Z"
+  },
+  {
+    "id": "f9000017-0fb0-4811-ba24-13712f02f315",
+    "category": "breaking_news",
+    "headline": "A nationwide outage at a major mobile carrier in South Korea disrupted voice and payment services for several hours.",
+    "summary": "Retail payments and commuter ticketing were affected in multiple cities after a core network failure spread across the carrier's LTE backbone. Engineers restored most services by late afternoon, but business groups said transaction backlogs remain under review.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "South Korea",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": 8700000,
+    "economic_impact_usd": 85000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "telecom",
+      "outage",
+      "payments"
+    ],
+    "published_at": "2026-04-22T07:51:00Z"
+  },
+  {
+    "id": "ee1e0d54-6d69-4b61-8c87-4289df893ec7",
+    "category": "breaking_news",
+    "headline": "Reports of a cabinet reshuffle in Peru triggered protests outside congressional buildings in Lima.",
+    "summary": "Crowds gathered in central Lima after local broadcasters reported that three ministers could be replaced following a budget dispute. Police cordoned off the government district, and the presidency said formal announcements would come later in the day.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Peru",
+      "region": "Lima Province"
+    },
+    "source_reliability": "unverified",
+    "status": "developing",
+    "affected_population_estimate": 210000,
+    "economic_impact_usd": null,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": 12
+    },
+    "tags": [
+      "politics",
+      "protest",
+      "cabinet"
+    ],
+    "published_at": "2026-04-22T07:34:00Z"
+  },
+  {
+    "id": "67f2ffe9-a7cb-42f5-b7d8-be3403fc6f9b",
+    "category": "breaking_news",
+    "headline": "Authorities in Egypt announced the reopening of a key Suez Canal lane after a stranded tanker was refloated.",
+    "summary": "Tugboats and dredgers cleared the vessel after it drifted across a secondary transit lane during high winds. Canal authorities warned that shipping schedules may remain uneven for the next 24 hours as delayed convoys are re-sequenced.",
+    "severity": "medium",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Egypt",
+      "region": "Suez"
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 140000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "shipping",
+      "suez",
+      "trade"
+    ],
+    "published_at": "2026-04-22T06:42:00Z"
+  },
+  {
+    "id": "53dd204a-68b9-4d3f-866f-60803445c4a1",
+    "category": "breaking_news",
+    "headline": "A cyberattack on a provincial hospital network in Ontario forced the postponement of non-urgent procedures.",
+    "summary": "Hospital administrators said emergency departments remained open, but imaging and scheduling systems were taken offline after ransomware was detected on shared infrastructure. Provincial cybersecurity officials are assisting while patient notification plans are prepared.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Canada",
+      "region": "Ontario"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": 1200000,
+    "economic_impact_usd": 28000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "cyberattack",
+      "healthcare",
+      "ransomware"
+    ],
+    "published_at": "2026-04-22T05:50:00Z"
+  },
+  {
+    "id": "176ddb58-9054-4be0-9fa5-2a149e1bf45d",
+    "category": "breaking_news",
+    "headline": "An explosion at a fertilizer storage site outside Lahore injured workers and disrupted nearby freight traffic.",
+    "summary": "Rescue teams said the blast originated in an industrial storage yard and damaged surrounding warehouses within a one-kilometer radius. Authorities have not confirmed the trigger and are inspecting whether safety protocols were followed.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Pakistan",
+      "region": "Punjab"
+    },
+    "source_reliability": "multi_source",
+    "status": "developing",
+    "affected_population_estimate": 260000,
+    "economic_impact_usd": 45000000,
+    "casualties": {
+      "confirmed": 6,
+      "estimated": 18
+    },
+    "tags": [
+      "industrial",
+      "explosion",
+      "freight"
+    ],
+    "published_at": "2026-04-22T05:32:00Z"
+  },
+  {
+    "id": "4657cf55-3c41-4139-98ac-4bc281020468",
+    "category": "breaking_news",
+    "headline": "An armed confrontation near the Chad-Sudan border displaced villages and interrupted humanitarian access.",
+    "summary": "Aid agencies reported that several communities moved toward temporary shelters after fighting intensified along a remote border corridor. Relief convoys were paused because of route insecurity, and regional officials warned that food stocks could tighten within days.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Chad",
+      "region": "Ouaddaï"
+    },
+    "source_reliability": "multi_source",
+    "status": "ongoing",
+    "affected_population_estimate": 185000,
+    "economic_impact_usd": null,
+    "casualties": {
+      "confirmed": 23,
+      "estimated": 60
+    },
+    "tags": [
+      "conflict",
+      "displacement",
+      "aid"
+    ],
+    "published_at": "2026-04-22T02:46:00Z"
+  },
+  {
+    "id": "a0c42698-2815-4887-a0e6-953e090ebfd6",
+    "category": "breaking_news",
+    "headline": "International aviation authorities are investigating the temporary loss of satellite navigation across parts of Eastern Europe.",
+    "summary": "Airlines reported rerouting and manual separation procedures after multiple carriers flagged GPS interference affecting regional flight paths. Regulators said no crash or collision was reported, but incident reviews were launched across several jurisdictions.",
+    "severity": "high",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Poland",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 210000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "aviation",
+      "gps",
+      "airspace"
+    ],
+    "published_at": "2026-04-22T02:09:00Z"
+  },
+  {
+    "id": "e2057e75-61fc-4f04-9a30-6dd2cb777a74",
+    "category": "breaking_news",
+    "headline": "A coordinated ransomware campaign disrupted customs processing at three major European ports, delaying international freight.",
+    "summary": "Port operators in Rotterdam, Antwerp, and Hamburg said container release systems were intermittently unavailable after malicious encryption spread through logistics networks. Trade analysts warned the disruption could ripple across automotive and retail supply chains if recovery slows.",
+    "severity": "critical",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Netherlands",
+      "region": "South Holland"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 1900000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "cybersecurity",
+      "ports",
+      "supply-chain"
+    ],
+    "published_at": "2026-04-22T01:43:00Z"
+  },
+  {
+    "id": "79a4fd90-7e3f-46ab-b453-e061e1d4286e",
+    "category": "breaking_news",
+    "headline": "Emergency meetings were called at the United Nations after unverified reports of a ceasefire collapse spread across two conflict zones.",
+    "summary": "Diplomatic missions sought confirmation after field monitors and regional broadcasters published conflicting accounts of artillery fire and troop movement. No official multinational verification has been issued, but markets and humanitarian groups reacted as if escalation were possible.",
+    "severity": "critical",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Switzerland",
+      "region": "Geneva"
+    },
+    "source_reliability": "unverified",
+    "status": "developing",
+    "affected_population_estimate": 3200000,
+    "economic_impact_usd": 640000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": 140
+    },
+    "tags": [
+      "geopolitics",
+      "ceasefire",
+      "diplomacy"
+    ],
+    "published_at": "2026-04-22T01:20:00Z"
+  },
+  {
+    "id": "b7ba216e-7b23-4199-9f71-b7bb4a36a6c1",
+    "category": "market_movement",
+    "headline": "Copper prices slipped after weaker-than-expected factory orders in Germany raised demand concerns.",
+    "summary": "Benchmark copper contracts fell during European trading as manufacturers reported softer month-on-month bookings. Analysts said the move reflected near-term industrial caution rather than structural demand destruction.",
+    "severity": "low",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Germany",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 380000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "commodities",
+      "copper",
+      "manufacturing"
+    ],
+    "published_at": "2026-04-22T00:48:00Z"
+  },
+  {
+    "id": "fb31fc8a-3cb5-4066-98bf-d8f14032462c",
+    "category": "market_movement",
+    "headline": "Shares of a mid-cap logistics firm in Japan declined after guidance was trimmed for domestic parcel volumes.",
+    "summary": "The company cited slower e-commerce conversion and rising labor costs in its updated quarterly outlook. Brokers described the drop as contained and largely specific to the issuer rather than the broader transport sector.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "Japan",
+      "region": "Kansai"
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 92000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "equities",
+      "logistics",
+      "guidance"
+    ],
+    "published_at": "2026-04-21T19:41:00Z"
+  },
+  {
+    "id": "cbf42a99-32cf-4f70-9dcb-3cd8c8301bc8",
+    "category": "market_movement",
+    "headline": "Coffee futures rose modestly on reports of delayed rainfall in southern Brazil crop zones.",
+    "summary": "Traders added weather premiums after local agronomy updates suggested flowering conditions could tighten over the coming week. Exporters said the move has not yet materially changed shipment planning.",
+    "severity": "low",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Brazil",
+      "region": "Minas Gerais"
+    },
+    "source_reliability": "single_source",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 210000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "coffee",
+      "weather",
+      "futures"
+    ],
+    "published_at": "2026-04-21T19:13:00Z"
+  },
+  {
+    "id": "445f524e-58bc-4689-aa87-1c289406a894",
+    "category": "market_movement",
+    "headline": "Turkey's sovereign bond spreads widened after inflation data exceeded market expectations.",
+    "summary": "Government debt sold off as investors recalibrated rate expectations following a stronger-than-forecast consumer price print. Domestic banks absorbed part of the move, limiting deeper disorder in secondary trading.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Turkey",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 1100000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "bonds",
+      "inflation",
+      "sovereign"
+    ],
+    "published_at": "2026-04-21T18:50:00Z"
+  },
+  {
+    "id": "c646a932-45f3-4db5-b37a-283f42b85c4f",
+    "category": "market_movement",
+    "headline": "A major semiconductor index in Taiwan rose after two suppliers reported stronger AI server demand.",
+    "summary": "Chip equipment makers and contract manufacturers led gains after earnings updates pointed to expanding order visibility for accelerator-related hardware. Market participants said the rally remained concentrated in a handful of names.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Taiwan",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 2400000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "semiconductors",
+      "ai",
+      "equities"
+    ],
+    "published_at": "2026-04-21T17:58:00Z"
+  },
+  {
+    "id": "e594f97e-eae7-40f8-b3cf-f679f40ba39f",
+    "category": "market_movement",
+    "headline": "Nigeria's currency weakened in unofficial trading after rumors of delayed central bank intervention circulated.",
+    "summary": "Street and broker pricing diverged from the official window after traders reported thinner liquidity and speculative demand for dollars. The central bank did not immediately comment, and formal market impact remained uncertain.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Nigeria",
+      "region": null
+    },
+    "source_reliability": "unverified",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 560000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "fx",
+      "naira",
+      "liquidity"
+    ],
+    "published_at": "2026-04-21T17:32:00Z"
+  },
+  {
+    "id": "7822f10f-b76a-4096-875b-e99577f4171e",
+    "category": "market_movement",
+    "headline": "Crude oil advanced as shipping insurers reassessed risk premiums for vessels transiting the Red Sea corridor.",
+    "summary": "Energy markets moved higher after underwriters raised guidance on route-related costs for tankers and support vessels. Refiners said they were monitoring freight pass-through rather than immediate supply shortages.",
+    "severity": "medium",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Saudi Arabia",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "ongoing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 3900000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "oil",
+      "shipping",
+      "insurance"
+    ],
+    "published_at": "2026-04-21T10:45:00Z"
+  },
+  {
+    "id": "2d556258-9c51-49ae-8aae-15116d0676ca",
+    "category": "market_movement",
+    "headline": "Indian banking stocks fell after a digital payments outage raised concerns over transaction settlement backlogs.",
+    "summary": "Several listed lenders underperformed the broader market as investors assessed possible fee leakage and support costs tied to failed transactions. Exchange officials said trading systems remained normal and the issue was isolated to payment rails.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "India",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 870000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "banking",
+      "payments",
+      "equities"
+    ],
+    "published_at": "2026-04-21T10:26:00Z"
+  },
+  {
+    "id": "ee9d9ab0-dbea-4d25-87ef-4b2f3d1ffd80",
+    "category": "market_movement",
+    "headline": "The S&P 500 futures market fell sharply after a surprise antitrust ruling against a leading cloud software provider.",
+    "summary": "Technology names led a broad premarket decline as investors repriced regulatory exposure for platform businesses with large enterprise contracts. Dealers reported elevated hedging flows and wider option skew through the opening hour.",
+    "severity": "high",
+    "geographic_scope": "global",
+    "location": {
+      "country": "United States",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 9800000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "equities",
+      "antitrust",
+      "technology"
+    ],
+    "published_at": "2026-04-21T09:47:00Z"
+  },
+  {
+    "id": "ca19fc83-33b0-4f51-a9fe-6359f6ab0820",
+    "category": "market_movement",
+    "headline": "European natural gas contracts surged after unconfirmed maintenance issues were reported on a major Norwegian field.",
+    "summary": "Contracts jumped in morning trade as brokers circulated reports of production interruptions ahead of winter storage planning. Grid operators had not confirmed a sustained outage by publication time, leaving volatility elevated.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Norway",
+      "region": null
+    },
+    "source_reliability": "unverified",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 4300000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "natural-gas",
+      "energy",
+      "volatility"
+    ],
+    "published_at": "2026-04-21T08:39:00Z"
+  },
+  {
+    "id": "001480e6-21d9-4056-952e-431a0d6608a7",
+    "category": "market_movement",
+    "headline": "Bitcoin dropped below a key technical level after leveraged liquidations accelerated across offshore exchanges.",
+    "summary": "The selloff intensified as automatic position unwinds pushed spot prices lower during thin overnight liquidity. Analysts said the move reflected forced deleveraging more than a new regulatory catalyst.",
+    "severity": "high",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Global",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "concluded",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 6200000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "crypto",
+      "liquidation",
+      "bitcoin"
+    ],
+    "published_at": "2026-04-21T07:51:00Z"
+  },
+  {
+    "id": "23d1e8fe-13ff-4108-ae00-c084b30045a9",
+    "category": "market_movement",
+    "headline": "A coordinated selloff across major equity, bond, and commodity markets followed fears of a wider interstate conflict.",
+    "summary": "Cross-asset volatility spiked as investors rotated into safe-haven currencies and short-duration government debt while reducing risk across cyclical sectors. Clearing firms increased margin requirements in several jurisdictions as turnover surged.",
+    "severity": "critical",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Global",
+      "region": null
+    },
+    "source_reliability": "confirmed",
+    "status": "developing",
+    "affected_population_estimate": null,
+    "economic_impact_usd": 78000000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": null
+    },
+    "tags": [
+      "cross-asset",
+      "risk-off",
+      "conflict"
+    ],
+    "published_at": "2026-04-21T00:48:00Z"
+  },
+  {
+    "id": "7495bf5c-067f-4594-a1c8-10a0bd0e9c9e",
+    "category": "natural_disaster",
+    "headline": "A brush fire on the outskirts of Adelaide burned scrubland and prompted a temporary road closure.",
+    "summary": "Fire crews contained the blaze before it reached residential blocks, though smoke reduced visibility on two commuter routes. Emergency services said no homes were lost and evacuation orders were not issued.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "Australia",
+      "region": "South Australia"
+    },
+    "source_reliability": "confirmed",
+    "status": "concluded",
+    "affected_population_estimate": 12000,
+    "economic_impact_usd": 3000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "wildfire",
+      "roads",
+      "smoke"
+    ],
+    "published_at": "2026-04-21T00:04:00Z"
+  },
+  {
+    "id": "eadc1a6c-43f5-4aeb-bcac-a3533a6c44c3",
+    "category": "natural_disaster",
+    "headline": "Heavy rain caused flash flooding in a district of Accra, damaging storefronts and cutting power to several streets.",
+    "summary": "Municipal teams used pumps to clear standing water after drainage channels overflowed during a short but intense storm. Officials said damage was concentrated in a low-lying commercial area and schools reopened the next day.",
+    "severity": "low",
+    "geographic_scope": "local",
+    "location": {
+      "country": "Ghana",
+      "region": "Greater Accra"
+    },
+    "source_reliability": "single_source",
+    "status": "concluded",
+    "affected_population_estimate": 38000,
+    "economic_impact_usd": 9000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": null
+    },
+    "tags": [
+      "flooding",
+      "storm",
+      "urban"
+    ],
+    "published_at": "2026-04-20T23:38:00Z"
+  },
+  {
+    "id": "e248ce8e-f0c6-4c2d-906d-f269573cd72a",
+    "category": "natural_disaster",
+    "headline": "A 5.4 magnitude earthquake struck near Cusco, shaking buildings across southern Peru.",
+    "summary": "Authorities reported cracked walls, disrupted local transit, and scattered service interruptions, but no major structural collapse. Engineering teams were dispatched to inspect schools and heritage sites in the affected corridor.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Peru",
+      "region": "Cusco"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": 410000,
+    "economic_impact_usd": 26000000,
+    "casualties": {
+      "confirmed": 1,
+      "estimated": 5
+    },
+    "tags": [
+      "earthquake",
+      "infrastructure",
+      "inspection"
+    ],
+    "published_at": "2026-04-20T22:50:00Z"
+  },
+  {
+    "id": "3f55e1eb-bff9-4d5d-8123-0e6735609a91",
+    "category": "natural_disaster",
+    "headline": "Monsoon flooding in northeastern India inundated villages and displaced families into temporary shelters.",
+    "summary": "Water levels rose across multiple river basins after two days of persistent rainfall, submerging cropland and low-lying roads. State disaster officials said relief boats were moving supplies while more precipitation remained in the forecast.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "India",
+      "region": "Assam"
+    },
+    "source_reliability": "multi_source",
+    "status": "ongoing",
+    "affected_population_estimate": 275000,
+    "economic_impact_usd": 78000000,
+    "casualties": {
+      "confirmed": 4,
+      "estimated": 17
+    },
+    "tags": [
+      "monsoon",
+      "flooding",
+      "displacement"
+    ],
+    "published_at": "2026-04-20T10:47:00Z"
+  },
+  {
+    "id": "c23dba26-3258-41ba-a8d5-17e3cb1187e6",
+    "category": "natural_disaster",
+    "headline": "A tropical storm brushed the coast of Mozambique, damaging fishing infrastructure and cutting power to coastal towns.",
+    "summary": "Port sheds, market stalls, and utility poles were damaged as sustained winds and coastal surge moved through two provinces overnight. Aid groups said some communities remained isolated by debris and washed-out secondary roads.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Mozambique",
+      "region": "Sofala"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": 190000,
+    "economic_impact_usd": 54000000,
+    "casualties": {
+      "confirmed": 3,
+      "estimated": 12
+    },
+    "tags": [
+      "storm",
+      "coast",
+      "power"
+    ],
+    "published_at": "2026-04-20T09:35:00Z"
+  },
+  {
+    "id": "4668681f-6552-4a15-8a0f-d72458a9d39d",
+    "category": "natural_disaster",
+    "headline": "Volcanic ash from an eruption in Indonesia disrupted flights and forced mask distribution in nearby districts.",
+    "summary": "Authorities expanded exclusion zones around the volcano after repeated ash plumes drifted over transport corridors and farmland. Airlines canceled regional flights while health teams distributed protective gear in communities downwind.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Indonesia",
+      "region": "East Nusa Tenggara"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": 620000,
+    "economic_impact_usd": 140000000,
+    "casualties": {
+      "confirmed": 0,
+      "estimated": 8
+    },
+    "tags": [
+      "volcano",
+      "aviation",
+      "ash"
+    ],
+    "published_at": "2026-04-20T08:51:00Z"
+  },
+  {
+    "id": "ddb4100a-6e63-4b94-9cb0-3ae9fa19988f",
+    "category": "natural_disaster",
+    "headline": "A fast-moving wildfire in northern California destroyed homes and triggered mandatory evacuations in two counties.",
+    "summary": "Fire officials said hot winds pushed the blaze across dry terrain overnight, overwhelming local containment lines and forcing road closures. Utility crews shut transmission corridors as authorities prepared additional shelters for displaced residents.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "United States",
+      "region": "California"
+    },
+    "source_reliability": "confirmed",
+    "status": "developing",
+    "affected_population_estimate": 145000,
+    "economic_impact_usd": 620000000,
+    "casualties": {
+      "confirmed": 2,
+      "estimated": 11
+    },
+    "tags": [
+      "wildfire",
+      "evacuation",
+      "utilities"
+    ],
+    "published_at": "2026-04-20T06:31:00Z"
+  },
+  {
+    "id": "822d68a3-e38a-450a-a59a-9cfa2433af39",
+    "category": "natural_disaster",
+    "headline": "Severe flooding along the Danube basin forced evacuations in parts of Hungary and Serbia.",
+    "summary": "Emergency crews reinforced levees and moved residents from riverside neighborhoods as runoff from upstream storms drove water levels above seasonal norms. Rail and barge services were partially suspended across several cross-border corridors.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Hungary",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "ongoing",
+    "affected_population_estimate": 980000,
+    "economic_impact_usd": 480000000,
+    "casualties": {
+      "confirmed": 7,
+      "estimated": 21
+    },
+    "tags": [
+      "flooding",
+      "danube",
+      "evacuation"
+    ],
+    "published_at": "2026-04-19T22:42:00Z"
+  },
+  {
+    "id": "93571f12-3053-4e1c-926c-23a298d33ffc",
+    "category": "natural_disaster",
+    "headline": "A powerful typhoon made landfall in the central Philippines with destructive winds and widespread storm surge.",
+    "summary": "Provincial authorities reported severe housing damage, grid failure, and disrupted ferry links across multiple islands after the storm crossed densely populated coastal zones. International relief agencies began mobilizing emergency supplies as communications remained patchy.",
+    "severity": "high",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Philippines",
+      "region": "Visayas"
+    },
+    "source_reliability": "confirmed",
+    "status": "ongoing",
+    "affected_population_estimate": 5400000,
+    "economic_impact_usd": 2900000000,
+    "casualties": {
+      "confirmed": 118,
+      "estimated": 240
+    },
+    "tags": [
+      "typhoon",
+      "storm-surge",
+      "power-outage"
+    ],
+    "published_at": "2026-04-19T21:48:00Z"
+  },
+  {
+    "id": "be103107-ba0f-4a7a-881f-a94328f30c3a",
+    "category": "natural_disaster",
+    "headline": "A major earthquake in the eastern Mediterranean triggered infrastructure damage and tsunami warnings across several countries.",
+    "summary": "Emergency agencies in multiple coastal states activated regional response protocols after strong shaking damaged ports, roads, and apartment blocks. Tsunami alerts were later narrowed, but hospitals reported surges of injured residents and travel disruptions persisted.",
+    "severity": "critical",
+    "geographic_scope": "global",
+    "location": {
+      "country": "Greece",
+      "region": null
+    },
+    "source_reliability": "multi_source",
+    "status": "developing",
+    "affected_population_estimate": 13200000,
+    "economic_impact_usd": 8400000000,
+    "casualties": {
+      "confirmed": 430,
+      "estimated": 900
+    },
+    "tags": [
+      "earthquake",
+      "tsunami",
+      "mediterranean"
+    ],
+    "published_at": "2026-04-19T14:09:00Z"
+  },
+  {
+    "id": "896f4856-93da-4dd3-8742-a8fa6ada548c",
+    "category": "natural_disaster",
+    "headline": "Unverified reports of a glacial lake outburst flood in northern Pakistan prompted downstream evacuation warnings.",
+    "summary": "District officials and local radio networks said water levels rose sharply in mountain valleys after residents reported a sudden breach upstream. Satellite confirmation had not yet been published, and emergency teams were moving as a precaution into vulnerable settlements.",
+    "severity": "medium",
+    "geographic_scope": "regional",
+    "location": {
+      "country": "Pakistan",
+      "region": "Gilgit-Baltistan"
+    },
+    "source_reliability": "unverified",
+    "status": "developing",
+    "affected_population_estimate": 73000,
+    "economic_impact_usd": 18000000,
+    "casualties": {
+      "confirmed": null,
+      "estimated": 6
+    },
+    "tags": [
+      "glacial-lake",
+      "flood",
+      "mountain"
+    ],
+    "published_at": "2026-04-19T11:41:00Z"
+  }
+]

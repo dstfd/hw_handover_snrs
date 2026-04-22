@@ -1,0 +1,35 @@
+{
+  "model": "gemini-2.5-pro",
+
+  "common": {
+    "response_mime_type": "application/json",
+    "timeout_ms": 30000,
+    "reasoning_field": "reasoning"
+  },
+
+  "steps": {
+    "synthesis": {
+      "temperature": 0.3,
+      "max_output_tokens": 2048,
+      "reasoning_required": true,
+      "description": "Extract structured facts from raw event — slightly elevated temperature to surface implied context beyond verbatim news"
+    },
+    "impact_evaluation": {
+      "temperature": 0.2,
+      "max_output_tokens": 1024,
+      "reasoning_required": true,
+      "description": "Score impact dimensions and assign severity — grounded scoring with room to reason across ambiguous or low-confidence signals"
+    },
+    "validation": {
+      "temperature": 0.1,
+      "max_output_tokens": 1024,
+      "reasoning_required": true,
+      "description": "Checklist-style correctness and lineage verification — near-deterministic, no creativity required"
+    }
+  },
+
+  "retry_policy": {
+    "enabled": false,
+    "note": "Fail fast, fail loud — no retries. Failed calls are logged and the pipeline halts."
+  }
+}
